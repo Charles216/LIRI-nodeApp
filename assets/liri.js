@@ -1,15 +1,15 @@
 let dotenv = require("dotenv").config();
 let keys = require("./keys.js");
-console.log(keys);
-/* let request = require('request');
-let spotify = require('spotify');
+//console.log(keys);
+let request = require('request');
+let Spotify = require('node-spotify-api');
 let userInput = process.argv[2];
 let searchAction = process.argv[3];
 
 // Logic
 switch (userInput) {
     case 'track':
-        spot(song);
+        spot(searchAction);
         break;
 
     case 'band':
@@ -21,25 +21,38 @@ switch (userInput) {
         break;
 }
 
-
 // Spotify Function
-function spot() {
-    let client = new Spotify(keys.spotify)
+function spot(song) {
 
-    spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function (err, data) {
+    var spotify = new Spotify(keys.spotify);
+    var songName = song;
+
+    spotify.search({ type: 'track', query: songName }, function (err, data) {
         if (err) {
-            console.log('Error occurred: ' + err);
-            return;
+            return console.log('Error occurred: ' + err);
         }
-        console.log(data);
-        // Do something with 'data'
+
+         //console.log(data.tracks.items[0].album.name)
+        for (var i = 0; i < data.tracks.items.length; i++) {
+            var songsInfo = data.tracks.items[i];
+            
+            console.log(songsInfo);
+
+            console.log("Artist Name: " + songsInfo.album.artists[0].name);
+            console.log("Song Name: " + songsInfo.track);
+            console.log("Album Name: " + songsInfo.album.name);
+            console.log(); 
+                    
+        }
+
+
     });
 }
 
 // Movie Function
 function movieInfo() {
     let urlOMDB =
-        "http://www.omdbapi.com/?t=" + "snatch" + "&y=&plot=full&tomatoes=true&apikey=";
+        "http://www.omdbapi.com/?t=" + "snatch" + "&y=&plot=full&tomatoes=true&apikey=" + + keys.OMDB.API_KEY;
 
     request(urlOMDB, function (error, response, body) {
 
@@ -50,7 +63,7 @@ function movieInfo() {
         console.log('body:', body); // Print the HTML for the Google homepage.
     });
 };
-movieInfo();
+// movieInfo();
 
 // Bands in Town Function
 function concertInfo() {
@@ -66,5 +79,5 @@ function concertInfo() {
         console.log('body:', body); // Print the HTML for the Google homepage.
     });
 };
-concertInfo();
- */
+// concertInfo();
+
