@@ -2,6 +2,7 @@ let dotenv = require("dotenv").config();
 let keys = require("./keys.js");
 let request = require('request');
 let Spotify = require('node-spotify-api');
+//let moment = require('moments.js');
 let userInput = process.argv[2];
 let searchAction = process.argv[3];
 
@@ -76,8 +77,7 @@ The film recieved an IMDB User Rating of: ${IMDBrate} and a Rotten Tomates Ratin
         } else {
             console.log(error)
         }
-
-       
+   
     });
 };
  
@@ -87,8 +87,16 @@ function concertInfo(artist) {
         "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
 
     request(urlBand, function (error, response, body) {
-        let musicInfo = JSON.stringify(body);
-        console.log(musicInfo);
+        let musicInfo = JSON.parse(body);
+        let venue = musicInfo.venue.city;
+        
+        console.log(venue);
+
+        // if (!error) {
+        //     console.log(error);
+        // } else {
+        //     console.log(error)
+        // }
     });
 };
 
